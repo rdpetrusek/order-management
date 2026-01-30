@@ -3,6 +3,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddSingleton<IOrderRepository, OrderRepository>();
 
 var app = builder.Build();
 
@@ -14,28 +15,27 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+app.MapGet("/api/health", async () =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    // Add any dependencies that may need time to startup
+    // here and ensure they are ready.
+    return Results.Ok;
+});
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/api/orders", async (IOrderRepository orderRepository) => 
+{ 
+    var orders = await orderRepository.GetAllOrders();
+    return Results.Ok(orders);
+});
+
+app.MapGet("/api/orders/{orderId}", async (string orderId, IOrderRepository orderRepository) =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    var order = await orderRepository.GetOrderById(orderId);
+    if (order == null) {
+        return Results.NotFound();
+    }
+    return Results.Ok(order);
+});
+
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
