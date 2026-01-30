@@ -1,0 +1,16 @@
+{
+  "name": "order-management",
+  "version": "1.0.0",
+  "description": "Order Management System",
+  "private": true,
+  "scripts": {
+    "install:backend": "cd backend && dotnet restore",
+    "install:frontend": "cd frontend && npm install",
+    "install:all": "npm run install:backend && npm run install:frontend",
+    "backend": "cd backend && dotnet run",
+    "frontend": "cd frontend && npm start",
+    "build:backend": "cd backend && dotnet build",
+    "build:frontend": "cd frontend && npm run build",
+    "build": "npm run build:backend && npm run build:frontend"
+  }
+}

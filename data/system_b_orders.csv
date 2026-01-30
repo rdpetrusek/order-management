@@ -1,0 +1,14 @@
+order_num,client_name,date_placed,total,order_status
+241115-5001,Acme Laboratory Services,11/15/2024,2680.00,4
+241118-5002,Northside Clinical Labs,11/18/2024,1450.25,3
+241120-5003,HealthFirst Diagnostics,11/20/2024,980.50,2
+241123-5004,Metro Pathology Labs,11/23/2024,3100.00,1
+241125-5005,Riverside Medical Center,11/25/2024,2340.75,2
+241127-5006,Valley Medical Associates,11/27/2024,1590.00,3
+241129-5007,MedTech Solutions Inc,11/29/2024,4250.50,4
+241130-5008,Summit Health Group,11/30/2024,875.00,5
+241201-5009,Acme Laboratory Services,12/01/2024,1980.25,2
+241202-5010,Northside Clinical Labs,12/02/2024,3450.00,1
+241203-5011,HealthFirst Diagnostics,12/03/2024,2120.50,3
+241204-5012,Metro Pathology Labs,12/04/2024,1760.00,2
+241205-5013,Valley Medical Associates,12/05/2024,2890.75,1
