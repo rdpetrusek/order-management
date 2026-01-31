@@ -144,6 +144,7 @@ public sealed class OrderRepository : IOrderRepository
 
     public async Task<List<Order>> SearchOrders(OrderStatus status)
     {
+        _logger.LogError("status: {status}", status);
         var orders = await GetAllOrders();
         return orders.Where(o => o.Status == status).ToList();
     }

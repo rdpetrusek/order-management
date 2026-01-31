@@ -65,6 +65,52 @@ Retrieves all orders from both System A and System B data sources.
 
 ---
 
+### GET /api/orders/search?status={status}
+Filters orders by their normalized status.
+
+**Parameters:**
+- `status` (string, query parameter, required) - The order status to filter by. Valid values: "Pending", "Processing", "Shipped", "Completed", "Cancelled" (case-insensitive)
+
+**Response:**
+- `200 OK` - Returns filtered orders
+- `400 Bad Request` - Status parameter missing or invalid
+
+**Example Request:**
+```
+GET /api/orders/search?status=Processing
+```
+
+**Example Response (200 OK):**
+```json
+[
+  {
+    "sourceSystem": "SystemA",
+    "orderId": "A12345",
+    "customerName": "John Doe",
+    "orderDate": "2024-01-15T00:00:00",
+    "totalAmount": 150.75,
+    "status": "Processing"
+  },
+  {
+    "sourceSystem": "SystemB",
+    "orderId": "B54321",
+    "customerName": "Bob Johnson",
+    "orderDate": "2024-01-18T00:00:00",
+    "totalAmount": 89.50,
+    "status": "Processing"
+  }
+]
+```
+
+**Example Response (400 Bad Request):**
+```json
+{
+  "error": "Invalid status value. Valid values are: Pending, Processing, Shipped, Completed, Cancelled"
+}
+```
+
+---
+
 ### GET /api/orders/{orderId}
 Retrieves a specific order by its ID.
 
@@ -114,6 +160,8 @@ Retrieves a specific order by its ID.
     - Status code
         - SystemA: Used a normalized string (convert source to uppercase to handle PEND, Pend, pEND, etc) to convert to the enum type internally
         - SystemB: Used the int code as the value of the enum, this allowed it to be serialized without special logic
+- Date format
+    - I chose to return the date in ISO 8601 format as the YYYY-MM-DD format is the most reliable for ordering
 
 # Time Management
 ### Priorities
